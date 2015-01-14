@@ -35,30 +35,31 @@ class CI_Pagination {
 	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
 	var $cur_page			=  0; // The current page being viewed
 	var $use_page_numbers	= FALSE; // Use page number for segment instead of offset
-	var $first_link			= '&lsaquo; First';
+	var $first_link			= '&lsaquo;&lsaquo; 最前';
 	var $next_link			= '&gt;';
 	var $prev_link			= '&lt;';
-	var $last_link			= 'Last &rsaquo;';
+	var $last_link			= '最后 &rsaquo;&rsaquo;';
 	var $uri_segment		= 3;
-	var $full_tag_open		= '';
-	var $full_tag_close		= '';
-	var $first_tag_open		= '';
-	var $first_tag_close	= '&nbsp;';
-	var $last_tag_open		= '&nbsp;';
-	var $last_tag_close		= '';
+	var $full_tag_open		= '<ul class="pagination pagination-sm">';
+	var $full_tag_close		= '</ul>';
+	var $first_tag_open		= '<li>';
+	var $first_tag_close	= '</li>&nbsp;';
+	var $last_tag_open		= '<li>&nbsp;';
+	var $last_tag_close		= '</li>';
 	var $first_url			= ''; // Alternative URL for the First Page.
-	var $cur_tag_open		= '&nbsp;<strong>';
-	var $cur_tag_close		= '</strong>';
-	var $next_tag_open		= '&nbsp;';
-	var $next_tag_close		= '&nbsp;';
-	var $prev_tag_open		= '&nbsp;';
-	var $prev_tag_close		= '';
-	var $num_tag_open		= '&nbsp;';
-	var $num_tag_close		= '';
+	var $cur_tag_open		= '<li>';
+	var $cur_tag_close		= '</li>';
+	var $next_tag_open		= '<li>&nbsp;';
+	var $next_tag_close		= '&nbsp;</li>';
+	var $prev_tag_open		= '<li>&nbsp;';
+	var $prev_tag_close		= '</li>';
+	var $num_tag_open		= '<li>&nbsp;';
+	var $num_tag_close		= '</li>';
 	var $page_query_string	= FALSE;
 	var $query_string_segment = 'per_page';
 	var $display_pages		= TRUE;
 	var $anchor_class		= '';
+	var $item_tag			= 'a';
 
 	/**
 	 * Constructor
@@ -156,7 +157,7 @@ class CI_Pagination {
 		{
 			if ($CI->uri->segment($this->uri_segment) != $base_page)
 			{
-				$this->cur_page = $CI->uri->segment($this->uri_segment);
+				// $this->cur_page = $CI->uri->segment($this->uri_segment);
 
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
@@ -274,7 +275,7 @@ class CI_Pagination {
 				{
 					if ($this->cur_page == $loop)
 					{
-						$output .= $this->cur_tag_open.$loop.$this->cur_tag_close; // Current page
+						$output .= $this->cur_tag_open.'<a href="#">'.$loop.'</a>'.$this->cur_tag_close; // Current page
 					}
 					else
 					{
@@ -288,7 +289,7 @@ class CI_Pagination {
 						{
 							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
 
-							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$loop.'</a>'.$this->num_tag_close;
 						}
 					}
 				}
@@ -332,6 +333,7 @@ class CI_Pagination {
 		$output = $this->full_tag_open.$output.$this->full_tag_close;
 
 		return $output;
+		// return $this->cur_page.$base_page.$num_pages;
 	}
 }
 // END Pagination Class
